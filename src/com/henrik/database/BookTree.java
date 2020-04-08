@@ -7,6 +7,7 @@ public class BookTree implements BookRepository {
 
     private Node root;
     private long size;
+    private int iterations;
 
     private BookTree() {
         this.root = null;
@@ -20,6 +21,25 @@ public class BookTree implements BookRepository {
         return new BookTree();
     }
 
+    public static BookTree createTreeWithIdValues(int... ids){
+        BookTree bookTree = new BookTree();
+        for(int id : ids){
+            bookTree.insert(new Book(id,
+                    Long.toString(id),
+                    Long.toString(id),
+                    Long.toString(id),
+                    Long.toString(id)));
+        }
+        return bookTree;
+    }
+
+    /**
+     * Returns number of iterations the last @method find() had.
+     */
+    public int getIterations() {
+        return iterations;
+    }
+
     /**
      * Returns nodes quantity.
      */
@@ -31,16 +51,16 @@ public class BookTree implements BookRepository {
      * Inserts a book in tree.
      */
     public Book insert(Book b) {
-        if(bookExists(b.getId())){
-            System.out.println("A book with id["+ b.getId() + "] has already been inserted.");
-            return null;
-        }
-
         if (isEmpty()) {
             root = new Node(b);
         } else {
-            insertOnNode(root, b);
+            if(bookExists(b.getId())){
+                System.out.println("A book with id["+ b.getId() + "] has already been inserted.");
+                return null;
+            }
         }
+
+        insertOnNode(root, b);
         size++;
         System.out.println("[DATABASE] Inserted: " + b.toString());
         return b;
@@ -79,6 +99,7 @@ public class BookTree implements BookRepository {
      * Return a book by @param {id}
      */
     public Book find(long id){
+        iterations = 0;
         if(isEmpty()){
             System.out.println("Database is empty.");
             return null;
@@ -94,12 +115,15 @@ public class BookTree implements BookRepository {
     private Node findNode(Node n, long id){
         if(n != null){
             if(id == n.book.getId()){
+                iterations++;
                 return n;
             }
 
             if(id < n.book.getId()){
+                iterations++;
                 return findNode(n.left, id);
             } else {
+                iterations++;
                 return findNode(n.right, id);
             }
         }
@@ -186,6 +210,28 @@ public class BookTree implements BookRepository {
         return size == 0;
     }
 
+
+    public void printOrderedTree(){
+        visit(root);
+        System.out.println("\n");
+    }
+
+    private void visit(Node node){
+        if(node != null){
+            if(node.left != null){
+                visit(node.left);
+            }
+            print(node);
+            if(node.right != null){
+                visit(node.right);
+            }
+        }
+    }
+
+    public void print(Node node){
+        System.out.print("[" + node.book.getId() + "]");
+    }
+
     public static class Node {
 
         private Node left;
@@ -196,10 +242,6 @@ public class BookTree implements BookRepository {
             this.book = book;
             this.left = null;
             this.right = null;
-        }
-
-        public boolean isLeaf(){
-            return left == null && right == null;
         }
     }
 }
