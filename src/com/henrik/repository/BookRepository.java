@@ -1,9 +1,9 @@
 package com.henrik.repository;
 
 import com.henrik.Book;
-import com.henrik.database.Tree;
+import com.henrik.database.BookTree;
 
 public interface BookRepository {
 
-    Tree<Book> init();
+    Book insert(Book b);
 }
