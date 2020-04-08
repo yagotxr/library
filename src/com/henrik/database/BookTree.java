@@ -3,6 +3,8 @@ package com.henrik.database;
 import com.henrik.Book;
 import com.henrik.repository.BookRepository;
 
+import static java.util.Objects.isNull;
+
 public class BookTree implements BookRepository {
 
     private Node root;
@@ -92,19 +94,24 @@ public class BookTree implements BookRepository {
             return null;
         }
 
-        return findOnNode(root, id).book;
+        Node node = findNode(root, id);
+        if(node != null){
+            return node.book;
+        }
+
+        return null;
     }
 
-    private Node findOnNode(Node n, long id){
+    private Node findNode(Node n, long id){
         if(n != null){
             if(id == n.book.getId()){
                 return n;
             }
 
             if(id < n.book.getId()){
-                return findOnNode(n.left, id);
+                return findNode(n.left, id);
             } else {
-                return findOnNode(n.right, id);
+                return findNode(n.right, id);
             }
         }
         return null;
@@ -114,7 +121,22 @@ public class BookTree implements BookRepository {
      * Removes a book by @param {id}
      */
     public void delete(long id){
+        Node node = findNode(root, id);
+        if(node.left == null && node.right == null){
+            node = null;
+        } else if (node.left == null){
+            node.book = node.right.book;
+        } else {
+            node.book = replaceNode(node.left).book;
+        }
+    }
 
+    public Node replaceNode(Node n){
+        if(n.right == null){
+            return n;
+        } else {
+            return replaceNode(n.right);
+        }
     }
 
 

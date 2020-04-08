@@ -7,4 +7,5 @@ public interface BookRepository {
 
     Book insert(Book b);
     Book find(long id);
+    void delete(long id);
 }
