@@ -9,6 +9,19 @@ public class BookTree implements BookRepository {
     private long size;
     private long nodes;
 
+    private BookTree() {
+        this.root = null;
+        this.size = 0;
+        this.nodes = 0;
+    }
+
+    /**
+     * Initiate an empty tree.
+     */
+    public static BookTree init(){
+        return new BookTree();
+    }
+
     /**
      * Returns tree levels quantity.
      */
@@ -32,13 +45,18 @@ public class BookTree implements BookRepository {
             return null;
         }
 
-        if (root == null) {
+        if (isEmpty()) {
             root = new Node(b);
-            return b;
+        } else {
+            insertOnNode(root, b);
         }
-
-        insertOnNode(root, b);
+        size++;
+        System.out.println("[DATABASE] Inserted: " + b.toString());
         return b;
+    }
+
+    private boolean bookExists(long id){
+        return false;
     }
 
     /**
@@ -53,7 +71,6 @@ public class BookTree implements BookRepository {
                     insertOnNode(n.left, b);
                 } else {
                     n.left = new Node(b);
-                    System.out.println("[DATABASE] Inserted: " + b.toString());
                 }
 
             } else if (b.getId() > n.book.getId()) {
@@ -61,28 +78,27 @@ public class BookTree implements BookRepository {
                     insertOnNode(n.right, b);
                 } else {
                     n.right = new Node(b);
-                    System.out.println("[DATABASE] Inserted: " + b.toString());
                 }
             }
         }
     }
 
     /**
-     * Return a book by @param id
+     * Return a book by @param {id}
      */
     public Book find(long id){
-        if(root == null){
+        if(isEmpty()){
             System.out.println("Database is empty.");
             return null;
         }
 
-        return findOnNode(root, id);
+        return findOnNode(root, id).book;
     }
 
-    private Book findOnNode(Node n, long id){
+    private Node findOnNode(Node n, long id){
         if(n != null){
             if(id == n.book.getId()){
-                return n.book;
+                return n;
             }
 
             if(id < n.book.getId()){
@@ -95,12 +111,16 @@ public class BookTree implements BookRepository {
     }
 
     /**
-     * Check if book with @param id is already inserted.
+     * Removes a book by @param {id}
      */
-    private boolean bookExists(long id){
-        return false;
+    public void delete(long id){
+
     }
 
+
+    public boolean isEmpty(){
+        return size == 0;
+    }
     public static class Node {
 
         private Node left;
