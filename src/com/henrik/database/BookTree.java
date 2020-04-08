@@ -23,6 +23,9 @@ public class BookTree implements BookRepository {
         return nodes;
     }
 
+    /**
+     * Inserts a book in tree.
+     */
     public Book insert(Book b) {
 
         if(bookExists(b.getId())){
@@ -38,8 +41,13 @@ public class BookTree implements BookRepository {
         return b;
     }
 
+    /**
+     * Recursive method to check the next nodes and decide whether to put it
+     * on the left or right node depending on the id of the book.
+     */
     private void insertOnNode(Node n, Book b){
         if (n != null) {
+
             if (b.getId() < n.book.getId()) {
                 if (n.left != null) {
                     insertOnNode(n.left, b);
@@ -47,17 +55,21 @@ public class BookTree implements BookRepository {
                     n.left = new Node(b);
                     System.out.println("  [DATABASE] Inserted: " + b.toString());
                 }
+
             } else if (b.getId() > n.book.getId()) {
                 if (n.right != null) {
                     insertOnNode(n.right, b);
                 } else {
-                    System.out.println("  [DATABASE] Inserted: " + b.toString());
                     n.right = new Node(b);
+                    System.out.println("  [DATABASE] Inserted: " + b.toString());
                 }
             }
         }
     }
 
+    /**
+     * Check if book with @param id is already inserted.
+     */
     private boolean bookExists(long id){
         return false;
     }
