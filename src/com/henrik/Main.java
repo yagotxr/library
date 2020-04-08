@@ -20,5 +20,21 @@ public class Main {
         database.insert(new Book(32,null, null, null, null));
         database.insert(new Book(1,null, null, null, null));
         database.insert(new Book(60,null, null, null, null));
+
+        int id = 30;
+        Book book = database.find(id);
+        if(book != null){
+            System.out.println("Found.");
+        } else {
+            System.out.println("Not Found.");
+        }
+
+        database.delete(id);
+        book = database.find(id);
+        if(book != null){
+            System.out.println("Found.");
+        } else {
+            System.out.println("Not Found.");
+        }
     }
 }

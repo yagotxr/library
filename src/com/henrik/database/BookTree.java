@@ -7,12 +7,10 @@ public class BookTree implements BookRepository {
 
     private Node root;
     private long size;
-    private long nodes;
 
     private BookTree() {
         this.root = null;
         this.size = 0;
-        this.nodes = 0;
     }
 
     /**
@@ -23,17 +21,10 @@ public class BookTree implements BookRepository {
     }
 
     /**
-     * Returns tree levels quantity.
+     * Returns nodes quantity.
      */
     public long size() {
         return size;
-    }
-
-    /**
-     * Returns total nodes quantity.
-     */
-    public long getNodes() {
-        return nodes;
     }
 
     /**
@@ -97,7 +88,6 @@ public class BookTree implements BookRepository {
         if(node != null){
             return node.book;
         }
-
         return null;
     }
 
@@ -134,6 +124,7 @@ public class BookTree implements BookRepository {
             if(id < node.book.getId() ) {
                 node = node.left;
                 secondaryLeft = true;
+                size--;
             }
             else {
                 node = node.right;
@@ -166,8 +157,9 @@ public class BookTree implements BookRepository {
             else primaryNode.right = nextNode;
             nextNode.left = node.left;
         }
-
+        size--;
         return true;
+
     }
 
     public Node setNext(Node deletingNode) {
