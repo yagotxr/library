@@ -51,7 +51,7 @@ public class Main {
     public static void findOn(BookRepository tree, int id){
         Book book = tree.find(id);
         if(book != null) System.out.println("\nFound " + book.toString() +
-                "\nIterations: " + tree.getIterations());
+                "\nIterations: " + tree.getLastIteration());
         else System.out.println("\nNot found");
     }
 }

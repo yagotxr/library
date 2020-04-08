@@ -7,7 +7,7 @@ public class BookTree implements BookRepository {
 
     private Node root;
     private long size;
-    private int iterations;
+    private int lastIteration;
 
     private BookTree() {
         this.root = null;
@@ -36,8 +36,8 @@ public class BookTree implements BookRepository {
     /**
      * Returns number of iterations the last @method find() had.
      */
-    public int getIterations() {
-        return iterations;
+    public int getLastIteration() {
+        return lastIteration;
     }
 
     /**
@@ -99,7 +99,7 @@ public class BookTree implements BookRepository {
      * Return a book by @param {id}
      */
     public Book find(long id){
-        iterations = 0;
+        lastIteration = 0;
         if(isEmpty()){
             System.out.println("Database is empty.");
             return null;
@@ -115,15 +115,15 @@ public class BookTree implements BookRepository {
     private Node findNode(Node n, long id){
         if(n != null){
             if(id == n.book.getId()){
-                iterations++;
+                lastIteration++;
                 return n;
             }
 
             if(id < n.book.getId()){
-                iterations++;
+                lastIteration++;
                 return findNode(n.left, id);
             } else {
-                iterations++;
+                lastIteration++;
                 return findNode(n.right, id);
             }
         }

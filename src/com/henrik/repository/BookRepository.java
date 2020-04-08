@@ -8,5 +8,5 @@ public interface BookRepository {
     Book find(long id);
     boolean delete(long id);
     void printOrderedTree();
-    int getIterations();
+    int getLastIteration();
 }
