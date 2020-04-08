@@ -53,7 +53,7 @@ public class BookTree implements BookRepository {
                     insertOnNode(n.left, b);
                 } else {
                     n.left = new Node(b);
-                    System.out.println("  [DATABASE] Inserted: " + b.toString());
+                    System.out.println("[DATABASE] Inserted: " + b.toString());
                 }
 
             } else if (b.getId() > n.book.getId()) {
@@ -61,10 +61,37 @@ public class BookTree implements BookRepository {
                     insertOnNode(n.right, b);
                 } else {
                     n.right = new Node(b);
-                    System.out.println("  [DATABASE] Inserted: " + b.toString());
+                    System.out.println("[DATABASE] Inserted: " + b.toString());
                 }
             }
         }
+    }
+
+    /**
+     * Return a book by @param id
+     */
+    public Book find(long id){
+        if(root == null){
+            System.out.println("Database is empty.");
+            return null;
+        }
+
+        return findOnNode(root, id);
+    }
+
+    private Book findOnNode(Node n, long id){
+        if(n != null){
+            if(id == n.book.getId()){
+                return n.book;
+            }
+
+            if(id < n.book.getId()){
+                return findOnNode(n.left, id);
+            } else {
+                return findOnNode(n.right, id);
+            }
+        }
+        return null;
     }
 
     /**

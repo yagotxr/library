@@ -35,4 +35,15 @@ public class Book {
     public String getPublisher() {
         return publisher;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", author='" + author + '\'' +
+                ", publisher='" + publisher + '\'' +
+                '}';
+    }
 }
