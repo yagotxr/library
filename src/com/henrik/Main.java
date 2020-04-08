@@ -18,10 +18,7 @@ public class Main {
         database.insert(new Book(90,null, null, null, null));
         database.insert(new Book(20,null, null, null, null));
         database.insert(new Book(32,null, null, null, null));
-
-        System.out.println(database.find(40).toString());
-        database.delete(40);
-       if(database.find(40) == null) System.out.println("not found");
-
+        database.insert(new Book(1,null, null, null, null));
+        database.insert(new Book(60,null, null, null, null));
     }
 }
